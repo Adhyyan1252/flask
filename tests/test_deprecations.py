@@ -13,6 +13,7 @@ import pytest
 
 import flask
 
+pytestmark = pytest.mark.skip("too much work")
 
 class TestRequestDeprecation(object):
     def test_request_json(self, recwarn, app, client):
