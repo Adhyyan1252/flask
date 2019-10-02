@@ -72,39 +72,6 @@ def test_environ_base_modified(app, client, app_ctx):
     assert rv.data == b'0.0.0.1'
     assert flask.g.user_agent == 'Bar'
 
-
-def test_redirect_keep_session(app, client, app_ctx):
-    app.secret_key = 'testing'
-
-    @app.route('/', methods=['GET', 'POST'])
-    def index():
-        if flask.request.method == 'POST':
-            return flask.redirect('/getsession')
-        flask.session['data'] = 'foo'
-        return 'index'
-
-    @app.route('/getsession')
-    def get_session():
-        return flask.session.get('data', '<missing>')
-
-    with client:
-        rv = client.get('/getsession')
-        assert rv.data == b'<missing>'
-
-        rv = client.get('/')
-        assert rv.data == b'index'
-        assert flask.session.get('data') == 'foo'
-        rv = client.post('/', data={}, follow_redirects=True)
-        assert rv.data == b'foo'
-
-        # This support requires a new Werkzeug version
-        if not hasattr(client, 'redirect_client'):
-            assert flask.session.get('data') == 'foo'
-
-        rv = client.get('/getsession')
-        assert rv.data == b'foo'
-
-
 def test_session_transactions(app, client):
     app.secret_key = 'testing'
 

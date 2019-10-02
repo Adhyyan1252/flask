@@ -1581,30 +1581,6 @@ def test_before_first_request_functions_concurrent(app, client):
     t.join()
     assert app.got_first_request
 
-
-def test_routing_redirect_debugging(app, client):
-    app.debug = True
-
-    @app.route('/foo/', methods=['GET', 'POST'])
-    def foo():
-        return 'success'
-
-    with client:
-        with pytest.raises(AssertionError) as e:
-            client.post('/foo', data={})
-        assert 'http://localhost/foo/' in str(e)
-        assert ('Make sure to directly send '
-                'your POST-request to this URL') in str(e)
-
-        rv = client.get('/foo', data={}, follow_redirects=True)
-        assert rv.data == b'success'
-
-    app.debug = False
-    with client:
-        rv = client.post('/foo', data={}, follow_redirects=True)
-        assert rv.data == b'success'
-
-
 def test_route_decorator_custom_endpoint(app, client):
     app.debug = True
 
