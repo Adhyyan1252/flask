@@ -25,7 +25,7 @@ bootstrapping code for our application::
     from werkzeug.utils import secure_filename
 
     UPLOAD_FOLDER = '/path/to/the/uploads'
-    ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
     app = Flask(__name__)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -121,7 +121,7 @@ Alternatively you can register `uploaded_file` as `build_only` rule and
 use the :class:`~werkzeug.wsgi.SharedDataMiddleware`.  This also works with
 older versions of Flask::
 
-    from werkzeug import SharedDataMiddleware
+    from werkzeug.middleware.shared_data import SharedDataMiddleware
     app.add_url_rule('/uploads/<filename>', 'uploaded_file',
                      build_only=True)
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
@@ -147,11 +147,17 @@ config key::
     from flask import Flask, Request
 
     app = Flask(__name__)
-    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 
-The code above will limited the maximum allowed payload to 16 megabytes.
-If a larger file is transmitted, Flask will raise an
+The code above will limit the maximum allowed payload to 16 megabytes.
+If a larger file is transmitted, Flask will raise a
 :exc:`~werkzeug.exceptions.RequestEntityTooLarge` exception.
+
+.. admonition:: Connection Reset Issue
+
+    When using the local development server, you may get a connection
+    reset error instead of a 413 response. You will get the correct
+    status response when running the app with a production WSGI server.
 
 This feature was added in Flask 0.6 but can be achieved in older versions
 as well by subclassing the request object.  For more information on that

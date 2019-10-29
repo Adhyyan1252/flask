@@ -8,10 +8,11 @@ Thread-Locals in Flask
 
 One of the design decisions in Flask was that simple tasks should be simple;
 they should not take a lot of code and yet they should not limit you. Because
-of that, Flask has a few design choices that some people might find surprising or
-unorthodox. For example, Flask uses thread-local objects internally so that you
-don’t have to pass objects around from function to function within a request in
-order to stay threadsafe. This approach is convenient, but requires a valid
+of that, Flask has a few design choices that some people might find
+surprising or unorthodox. For example, Flask uses thread-local objects
+internally so that you don’t have to pass objects around from
+function to function within a request in order to stay threadsafe.
+This approach is convenient, but requires a valid
 request context for dependency injection or when attempting to reuse code which
 uses a value pegged to the request.  The Flask project is honest about
 thread-locals, does not hide them, and calls out in the code and documentation
@@ -45,11 +46,3 @@ spam, links to malicious software, and the like.
 
 Flask is no different from any other framework in that you the developer must
 build with caution, watching for exploits when building to your requirements.
-
-Python 3 Support in Flask
--------------------------
-
-Flask, its dependencies, and most Flask extensions all support Python 3.
-If you want to use Flask with Python 3 have a look at the :ref:`python3-support` page.
-
-Continue to :ref:`installation` or the :ref:`quickstart`.

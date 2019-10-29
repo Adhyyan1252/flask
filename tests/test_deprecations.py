@@ -1,40 +1,14 @@
-# -*- coding: utf-8 -*-
-"""
-    tests.deprecations
-    ~~~~~~~~~~~~~~~~~~
-
-    Tests deprecation support. Not used currently.
-
-    :copyright: (c) 2015 by Armin Ronacher.
-    :license: BSD, see LICENSE for more details.
-"""
-
 import pytest
 
-import flask
+from flask import json_available
 
 pytestmark = pytest.mark.skip("too much work")
 
-class TestRequestDeprecation(object):
-    def test_request_json(self, recwarn, app, client):
-        """Request.json is deprecated"""
 
-        @app.route('/', methods=['POST'])
-        def index():
-            assert flask.request.json == {'spam': 42}
-            print(flask.request.json)
-            return 'OK'
+def test_json_available():
+    with pytest.deprecated_call() as rec:
+        assert json_available
+        assert json_available == True  # noqa E712
+        assert json_available != False  # noqa E712
 
-        client.post('/', data='{"spam": 42}', content_type='application/json')
-        recwarn.pop(DeprecationWarning)
-
-    def test_request_module(self, recwarn, app, client):
-        """Request.module is deprecated"""
-
-        @app.route('/')
-        def index():
-            assert flask.request.module is None
-            return 'OK'
-
-        client.get('/')
-        recwarn.pop(DeprecationWarning)
+    assert len(rec.list) == 3

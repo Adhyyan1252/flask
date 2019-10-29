@@ -20,9 +20,9 @@ there is a Flask extension that handles that for you.  This is recommended
 if you want to get started quickly.
 
 You can download `Flask-SQLAlchemy`_ from `PyPI
-<https://pypi.python.org/pypi/Flask-SQLAlchemy>`_.
+<https://pypi.org/project/Flask-SQLAlchemy/>`_.
 
-.. _Flask-SQLAlchemy: http://flask-sqlalchemy.pocoo.org/
+.. _Flask-SQLAlchemy: https://flask-sqlalchemy.palletsprojects.com/
 
 
 Declarative

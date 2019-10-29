@@ -88,15 +88,15 @@ support them and they make debugging a lot harder.
 Tagging Builds
 --------------
 
-It is useful to distinguish between release and development builds.  Add a
-:file:`setup.cfg` file to configure these options.
+It is useful to distinguish between release and development builds. Add a
+:file:`setup.cfg` file to configure these options. ::
 
     [egg_info]
     tag_build = .dev
     tag_date = 1
 
     [aliases]
-    release = egg_info -RDb ''
+    release = egg_info -Db ''
 
 Running ``python setup.py sdist`` will create a development package
 with ".dev" and the current date appended: ``flaskr-1.0.dev20160314.tar.gz``.
@@ -173,5 +173,5 @@ folder instead of copying the data over.  You can then continue to work on
 the code without having to run ``install`` again after each change.
 
 
-.. _pip: https://pypi.python.org/pypi/pip
-.. _Setuptools: https://pypi.python.org/pypi/setuptools
+.. _pip: https://pypi.org/project/pip/
+.. _Setuptools: https://pypi.org/project/setuptools/
