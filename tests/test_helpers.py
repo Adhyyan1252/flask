@@ -780,15 +780,6 @@ class TestSendfile(object):
         assert rv.data.strip() == b"Hello Subdomain"
         rv.close()
 
-    def test_send_from_directory_bad_request(self, app, req_ctx):
-        app.root_path = os.path.join(
-            os.path.dirname(__file__), "test_apps", "subdomaintestmodule"
-        )
-
-        with pytest.raises(BadRequest):
-            flask.send_from_directory("static", "bad\x00")
-
-
 class TestUrlFor(object):
     def test_url_for_with_anchor(self, app, req_ctx):
         @app.route("/")
