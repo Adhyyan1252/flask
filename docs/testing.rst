@@ -54,7 +54,8 @@ the application for testing and initializes a new database::
 
     @pytest.fixture
     def client():
-        db_fd, flaskr.app.config['DATABASE'] = tempfile.mkstemp()
+        db_fd, db_path = tempfile.mkstemp()
+        flaskr.app.config['DATABASE'] = db_path
         flaskr.app.config['TESTING'] = True
 
         with flaskr.app.test_client() as client:
@@ -63,7 +64,7 @@ the application for testing and initializes a new database::
             yield client
 
         os.close(db_fd)
-        os.unlink(flaskr.app.config['DATABASE'])
+        os.unlink(db_path)
 
 This client fixture will be called by each individual test.  It gives us a
 simple interface to the application, where we can trigger test requests to the
@@ -93,7 +94,6 @@ If we now run the test suite, we should see the following output::
     collected 0 items
 
     =========== no tests ran in 0.07 seconds ============
-
 Even though it did not run any actual tests, we already know that our
 ``flaskr`` application is syntactically valid, otherwise the import
 would have died with an exception.
